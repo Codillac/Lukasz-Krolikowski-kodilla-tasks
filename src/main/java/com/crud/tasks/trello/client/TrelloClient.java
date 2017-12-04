@@ -8,7 +8,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -30,15 +29,16 @@ public class TrelloClient {
 
     public List<TrelloBoardDto> getTrelloBoards() {
 
-        Optional<List<TrelloBoardDto>> boardsOptionalResponse = Optional.of(Arrays.asList(restTemplate.getForObject(buildUrl(), TrelloBoardDto[].class)));
+        Optional<TrelloBoardDto[]> boardsResponse = Optional.ofNullable(restTemplate.getForObject(buildUrl(), TrelloBoardDto[].class));
 
-        return boardsOptionalResponse.orElse(new ArrayList<>());
+        return Arrays.asList(boardsResponse.orElse(new TrelloBoardDto[0]));
     }
 
-    private URI buildUrl() {
-        return UriComponentsBuilder.fromHttpUrl(trelloApiEndpoint + "/members/" + trelloUsername + "/boards")
-                .queryParam("key", trelloAppKey)
-                .queryParam("token", trelloToken)
-                .queryParam("fields", "name,id").build().encode().toUri();
+    public URI buildUrl() {
+//        return UriComponentsBuilder.fromHttpUrl(trelloApiEndpoint + "/members/" + trelloUsername + "/boards")
+//                .queryParam("key", trelloAppKey)
+//                .queryParam("token", trelloToken)
+//                .queryParam("fields", "name,id").build().encode().toUri();
+          return UriComponentsBuilder.fromHttpUrl("http://test1").build().encode().toUri();
     }
 }
